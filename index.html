@@ -7,7 +7,7 @@
   .gs .line{animation:none}
   @media (prefers-reduced-motion:no-preference){
     .gs .line{visibility:hidden}
-    .gs .tl-fill{clip-path:inset(0 0 100% 0)}
+    .gs .tl-fill{transform:scaleY(0);transform-origin:top}
   }
   </style>
 </head>
@@ -73,8 +73,7 @@ section{scroll-margin-top:72px}
 .site-header{
   position:sticky;top:env(safe-area-inset-top,0px);z-index:10;
   background:var(--paper);
-  background:color-mix(in srgb,var(--paper) 86%,transparent);
-  -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
+  background:color-mix(in srgb,var(--paper) 96%,transparent);
   border-bottom:1px solid var(--line);
 }
 .bar{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:60px}
@@ -293,8 +292,8 @@ h2{font:700 clamp(1.9rem,4.6vw,3.2rem)/1.05 var(--f-display);letter-spacing:-.02
 .prod-group-head h3{font:800 clamp(1.5rem,3.2vw,2.1rem)/1.05 var(--f-display);letter-spacing:-.03em}
 .prod-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
 .prod{display:grid;grid-template-rows:auto 1fr;min-width:0;background:var(--surface);border:1px solid var(--line);border-radius:4px;overflow:hidden;transition:transform 200ms var(--ease-out),border-color 160ms ease}
-.prod-img{display:block;line-height:0;aspect-ratio:4/5;background:var(--paper);border-bottom:1px solid var(--line);overflow:hidden}
-.prod-img img{display:block;width:100%;height:100%;object-fit:contain}
+.prod-img{display:block;line-height:0;background:var(--paper);border-bottom:1px solid var(--line);overflow:hidden}
+.prod-img img{display:block;width:100%;height:auto}
 .prod-body{display:grid;gap:8px;padding:16px 18px 18px;align-content:start}
 .prod h4{font:600 1.2rem/1.25 var(--f-display);letter-spacing:-.01em}
 .prod-body p{color:var(--muted);font-size:.95rem}
@@ -343,6 +342,16 @@ h2{font:700 clamp(1.9rem,4.6vw,3.2rem)/1.05 var(--f-display);letter-spacing:-.02
 .tl-item::before{content:"";position:absolute;left:-28px;top:6px;width:12px;height:12px;border-radius:50%;background:var(--paper);border:2px solid var(--accent)}
 .tl-item.goal::before{background:var(--mark);border-color:var(--mark)}
 .tl-date{font:500 .78rem/1.9 var(--f-mono);letter-spacing:.04em;text-transform:uppercase;color:var(--muted)}
+/* Present marker: filled dot, expanding ring, accent date */
+.tl-item.now::before{background:var(--accent)}
+.tl-item.now::after{
+  content:"";position:absolute;left:-28px;top:6px;width:12px;height:12px;
+  border:2px solid var(--accent);border-radius:50%;pointer-events:none;
+  animation:ring 2200ms var(--ease-out) infinite;
+}
+.tl-item.now .tl-date{color:var(--accent);font-weight:700}
+@keyframes ring{from{transform:scale(1);opacity:.7}to{transform:scale(2.8);opacity:0}}
+@media (prefers-reduced-motion:reduce){.tl-item.now::after{animation:none;transform:scale(1.9);opacity:.35}}
 .tl-item h3{font:600 1.3rem/1.25 var(--f-display);letter-spacing:-.01em}
 .tl-item p{margin-top:4px;color:var(--muted)}
 @media (max-width:620px){.tl-item{grid-template-columns:minmax(0,1fr)}}
@@ -647,19 +656,19 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px}
       </div>
       <div class="shots">
         <figure class="shot-fig">
-          <button class="shot" type="button" data-cap="Login page" aria-label="Enlarge screenshot: login page"><img src="images/medstudy-login.png" alt="MedStudy login page with email, password and Google sign-in" loading="lazy"></button>
+          <button class="shot" type="button" data-cap="Login page" aria-label="Enlarge screenshot: login page"><img src="images/medstudy-login.webp" alt="MedStudy login page with email, password and Google sign-in" loading="lazy"></button>
           <figcaption>Login page</figcaption>
         </figure>
         <figure class="shot-fig">
-          <button class="shot" type="button" data-cap="Home page" aria-label="Enlarge screenshot: home page"><img src="images/medstudy-home.png" alt="MedStudy home page with the headline Reserve Your Study Space Instantly" loading="lazy"></button>
+          <button class="shot" type="button" data-cap="Home page" aria-label="Enlarge screenshot: home page"><img src="images/medstudy-home.webp" alt="MedStudy home page with the headline Reserve Your Study Space Instantly" loading="lazy"></button>
           <figcaption>Home page</figcaption>
         </figure>
         <figure class="shot-fig wide">
-          <button class="shot" type="button" data-cap="Study rooms" aria-label="Enlarge screenshot: study rooms"><img src="images/medstudy-rooms.png" alt="Three study room cards showing availability, capacity, chairs and tables" loading="lazy"></button>
+          <button class="shot" type="button" data-cap="Study rooms" aria-label="Enlarge screenshot: study rooms"><img src="images/medstudy-rooms.webp" alt="Three study room cards showing availability, capacity, chairs and tables" loading="lazy"></button>
           <figcaption>Study rooms</figcaption>
         </figure>
         <figure class="shot-fig wide">
-          <button class="shot" type="button" data-cap="Schedule and QR check-in" aria-label="Enlarge screenshot: schedule and QR check-in"><img src="images/medstudy-schedule.png" alt="Schedule page with a booking calendar and QR code for room check-in" loading="lazy"></button>
+          <button class="shot" type="button" data-cap="Schedule and QR check-in" aria-label="Enlarge screenshot: schedule and QR check-in"><img src="images/medstudy-schedule.webp" alt="Schedule page with a booking calendar and QR code for room check-in" loading="lazy"></button>
           <figcaption>Schedule and QR check-in</figcaption>
         </figure>
       </div>
@@ -695,7 +704,7 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px}
         <ul class="prod-grid">
           <li class="prod">
             <a class="prod-img" href="https://www.amazon.com/dp/B0HKX27RQJ" target="_blank" rel="noopener noreferrer">
-              <img src="images/home-ledger-cover.png" alt="Cover of The Home Ledger, a home maintenance logbook" loading="lazy">
+              <img src="images/home-ledger-cover.webp" width="1000" height="641" decoding="async" alt="Cover of The Home Ledger, a home maintenance logbook" loading="lazy">
             </a>
             <div class="prod-body">
               <p class="pill">Amazon</p>
@@ -706,7 +715,7 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px}
           </li>
           <li class="prod">
             <a class="prod-img" href="https://www.amazon.com/dp/B0HKZ2S29L" target="_blank" rel="noopener noreferrer">
-              <img src="images/littlelog-cover.png" alt="Cover of LittleLog, a newborn feeding tracker logbook" loading="lazy">
+              <img src="images/littlelog-cover.webp" width="1000" height="613" decoding="async" alt="Cover of LittleLog, a newborn feeding tracker logbook" loading="lazy">
             </a>
             <div class="prod-body">
               <p class="pill">Amazon</p>
@@ -727,7 +736,7 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px}
         <ul class="prod-grid">
           <li class="prod">
             <a class="prod-img" href="https://www.raket.ph/abellananino088/products/abc-and-123-tracing-book-for-kids-or-canva-template" target="_blank" rel="noopener noreferrer">
-              <img src="images/tracing-book-cover.png" alt="Cover of the ABC and 123 Tracing Book for Kids" loading="lazy">
+              <img src="images/tracing-book-cover.webp" width="1000" height="707" decoding="async" alt="Cover of the ABC and 123 Tracing Book for Kids" loading="lazy">
             </a>
             <div class="prod-body">
               <p class="pill">Raket.ph</p>
@@ -748,7 +757,7 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px}
         <ul class="prod-grid">
           <li class="prod">
             <span class="prod-img">
-              <img src="images/ang-aking-unang-aklat.png" alt="Cover of Ang Aking Unang Aklat sa Pagkatuto, a Filipino children's workbook for ages 3 to 6" loading="lazy">
+              <img src="images/ang-aking-unang-aklat.webp" width="800" height="1100" decoding="async" alt="Cover of Ang Aking Unang Aklat sa Pagkatuto, a Filipino children's workbook for ages 3 to 6" loading="lazy">
             </span>
             <div class="prod-body">
               <p class="pill">Coming soon</p>
@@ -939,25 +948,30 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px}
         onEnter:function(batch){
           gsap.fromTo(batch,
             {opacity:0,y:24},
-            {opacity:1,y:0,duration:.7,ease:EASE,stagger:.06,overwrite:true});
+            {opacity:1,y:0,duration:.7,ease:EASE,stagger:.06,overwrite:true,
+              onComplete:function(){gsap.set(batch,{clearProps:'transform'});}});
         }
       });
 
-      /* 3. Timeline line draws as you scroll (functional: shows your progress) */
-      gsap.fromTo('.tl-fill',
-        {clipPath:'inset(0 0 100% 0)'},
-        {clipPath:'inset(0 0 0% 0)',ease:'none',
-         scrollTrigger:{trigger:'.tl',start:'top 70%',end:'bottom 70%',scrub:.4}});
+      /* 3. Timeline lines draw as you scroll (one trigger per timeline) */
+      gsap.utils.toArray('.tl').forEach(function(tl){
+        gsap.fromTo(tl.querySelector('.tl-fill'),
+          {scaleY:0},
+          {scaleY:1,ease:'none',
+           scrollTrigger:{trigger:tl,start:'top 70%',end:'bottom 70%',scrub:.4}});
+      });
 
-      /* 4. Screenshot galleries: each image reveals top to bottom with clip-path */
+      /* 4. Screenshot galleries: soft rise and fade, staggered */
       gsap.utils.toArray('.shots').forEach(function(group){
         gsap.fromTo(group.querySelectorAll('.shot-fig'),
-          {clipPath:'inset(0 0 100% 0)',opacity:0},
-          {clipPath:'inset(0 0 0% 0)',opacity:1,duration:.8,ease:EASE,stagger:.07,
+          {opacity:0,y:20},
+          {opacity:1,y:0,duration:.7,ease:EASE,stagger:.07,
            scrollTrigger:{trigger:group,start:'top 85%',once:true}});
       });
     });
 
+    ScrollTrigger.config({ignoreMobileResize:true});
+    window.addEventListener('load',function(){ScrollTrigger.refresh();});
     /* Reduced motion: fades only, no movement */
     mm.add('(prefers-reduced-motion: reduce)',function(){
       gsap.to('.hero .fade-in',{opacity:1,duration:.3,stagger:.05});
@@ -970,6 +984,23 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px}
     /* GSAP failed to load: show everything, old animations take over */
     root.classList.remove('gs');
   }
+
+    /* Product covers: box follows the image shape */
+    [].slice.call(document.querySelectorAll('.prod-img img')).forEach(function(img){
+    function fit(){
+      if(!img.naturalWidth)return;
+      var r=img.naturalWidth/img.naturalHeight;
+      img.parentNode.style.aspectRatio=img.naturalWidth+' / '+img.naturalHeight;
+      img.closest('.prod').classList.add(r>1.05?'is-landscape':r<.95?'is-portrait':'is-square');
+      if(window.ScrollTrigger)ScrollTrigger.refresh();
+    }
+    if(img.complete)fit();else img.addEventListener('load',fit);
+  });
+
+    /* Timeline: mark entries that are current */
+    [].slice.call(document.querySelectorAll('.tl-date')).forEach(function(d){
+    if(/\b(now|present)\b/i.test(d.textContent))d.closest('.tl-item').classList.add('now');
+  });
 
   /* Clock and time zone comparison */
   var MANILA='Asia/Manila';
@@ -990,7 +1021,7 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px}
   }
   var lastPht='',lastOut='';
   function tick(){
-    var now=new Date();
+    if(document.hidden)return;var now=new Date();
     try{
       var pht=fmt(MANILA,{hour:'numeric',minute:'2-digit',hour12:true},now)+' Philippine Time';
       if(pht!==lastPht){phtEl.textContent=pht;lastPht=pht;}
@@ -1009,7 +1040,7 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px}
   }
   tzSel.addEventListener('change',function(){lastOut='';tick();});
   tick();
-  setInterval(tick,1000);
+  setInterval(tick,5000);
 
   /* Screenshot viewer */
   var lb=document.getElementById('lb');
