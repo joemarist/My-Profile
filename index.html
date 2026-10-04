@@ -63,7 +63,8 @@ section{scroll-margin-top:72px}
   border-bottom:1px solid var(--line);
 }
 .bar{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:60px}
-.brand{font:700 1.05rem var(--f-display);letter-spacing:-.01em;text-decoration:none}
+.brand{display:inline-flex;align-items:center;gap:10px;font:700 1.05rem var(--f-display);letter-spacing:-.01em;text-decoration:none}
+.brand img{display:block;flex:none;width:28px;height:28px;object-fit:contain}
 .nav{display:flex;align-items:center;gap:clamp(14px,2.4vw,28px)}
 .nav-links{display:flex;gap:clamp(14px,2.4vw,28px)}
 .nav-links a{position:relative;font-size:.9rem;text-decoration:none;padding-block:6px}
@@ -271,6 +272,23 @@ h2{font:700 clamp(1.9rem,4.6vw,3.2rem)/1.05 var(--f-display);letter-spacing:-.02
 .text-link svg{transition:transform 200ms var(--ease-out)}
 @media (hover:hover) and (pointer:fine){.browser:hover{transform:translateY(-3px)}.text-link:hover svg{transform:translate(2px,-2px)}}
 
+/* Digital products */
+.prod-group{padding-block:32px;border-top:1px solid var(--line)}
+.prod-group-head{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:6px 24px;margin-bottom:22px}
+.prod-group-head h3{font:800 clamp(1.5rem,3.2vw,2.1rem)/1.05 var(--f-display);letter-spacing:-.03em}
+.prod-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+.prod{display:grid;grid-template-rows:auto 1fr;min-width:0;background:var(--surface);border:1px solid var(--line);border-radius:4px;overflow:hidden;transition:transform 200ms var(--ease-out),border-color 160ms ease}
+.prod-img{display:block;line-height:0;aspect-ratio:4/5;background:var(--paper);border-bottom:1px solid var(--line);overflow:hidden}
+.prod-img img{display:block;width:100%;height:100%;object-fit:contain}
+.prod-body{display:grid;gap:8px;padding:16px 18px 18px;align-content:start}
+.prod h4{font:600 1.2rem/1.25 var(--f-display);letter-spacing:-.01em}
+.prod-body p{color:var(--muted);font-size:.95rem}
+.prod-body .pill{color:var(--ink)}
+.prod .text-link{margin-top:6px}
+@media (hover:hover) and (pointer:fine){.prod:hover{transform:translateY(-3px);border-color:var(--ink)}}
+@media (max-width:980px){.prod-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:620px){.prod-grid{grid-template-columns:minmax(0,1fr)}}
+
 /* Tools and credentials */
 .tools{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:clamp(32px,6vw,72px);align-items:start}
 .group{display:grid;grid-template-columns:150px minmax(0,1fr);gap:8px 24px;padding-block:18px;border-top:1px solid var(--line)}
@@ -353,12 +371,16 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px}
 
 <header class="site-header">
   <div class="wrap bar">
-    <a class="brand" href="#top">Joemar Niño Abellana</a>
+    <a class="brand" href="#top">
+      <img src="images/favicon_2.png" alt="" width="28" height="28">
+      <span>Joemar Niño Abellana</span>
+    </a>
     <div class="nav">
       <nav class="nav-links" aria-label="Sections">
         <a href="#services">Services</a>
         <a href="#experience">Experience</a>
         <a href="#work">Work</a>
+        <a href="#products">Products</a>
         <a href="#tools">Tools</a>
         <a href="#education">Education</a>
         <a href="#contact">Contact</a>
@@ -431,7 +453,7 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px}
       </li>
       <li class="role reveal" style="--d:1">
         <h3>Graphic design and social stories</h3>
-        <p>Facebook and Instagram Stories and other social graphics, designed in Canva. I also create digital products and upload them to Amazon KDP and Racket.ph.</p>
+        <p>Facebook and Instagram Stories and other social graphics, designed in Canva. I also create digital products and upload them to Amazon KDP and Raket.ph. <a href="#products">See them below.</a></p>
         <p class="tags">Canva / Social stories / Digital products</p>
       </li>
       <li class="role reveal" style="--d:2">
@@ -644,6 +666,86 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px}
   </section>
 
   <section class="wrap block" id="tools">
+    <section class="wrap block" id="products">
+      <header class="sec-head reveal">
+        <p class="label">Digital products</p>
+        <h2>Logbooks and printables I've published</h2>
+      </header>
+    
+      <!-- AMAZON -->
+      <div class="prod-group reveal">
+        <div class="prod-group-head">
+          <h3>Amazon</h3>
+          <p class="label">Published on amazon.com</p>
+        </div>
+        <ul class="prod-grid">
+          <li class="prod">
+            <a class="prod-img" href="https://www.amazon.com/dp/B0HKX27RQJ" target="_blank" rel="noopener noreferrer">
+              <img src="images/home-ledger-cover.png" alt="Cover of The Home Ledger, a home maintenance logbook" loading="lazy">
+            </a>
+            <div class="prod-body">
+              <p class="pill">Amazon</p>
+              <h4>The Home Ledger</h4>
+              <p>A home maintenance logbook for homeowners and contractors to record repairs, upkeep and service history in one place.</p>
+              <a class="text-link" href="https://www.amazon.com/dp/B0HKX27RQJ" target="_blank" rel="noopener noreferrer">View on Amazon <svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+            </div>
+          </li>
+          <li class="prod">
+            <a class="prod-img" href="https://www.amazon.com/dp/B0HKZ2S29L" target="_blank" rel="noopener noreferrer">
+              <img src="images/littlelog-cover.png" alt="Cover of LittleLog, a newborn feeding tracker logbook" loading="lazy">
+            </a>
+            <div class="prod-body">
+              <p class="pill">Amazon</p>
+              <h4>LittleLog</h4>
+              <p>A newborn feeding tracker logbook that parents, grandparents and caregivers can use to keep a clear record of each feeding.</p>
+              <a class="text-link" href="https://www.amazon.com/dp/B0HKZ2S29L" target="_blank" rel="noopener noreferrer">View on Amazon <svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+            </div>
+          </li>
+        </ul>
+      </div>
+    
+      <!-- RAKET.PH -->
+      <div class="prod-group reveal">
+        <div class="prod-group-head">
+          <h3>Raket.ph</h3>
+          <p class="label">Sold on raket.ph</p>
+        </div>
+        <ul class="prod-grid">
+          <li class="prod">
+            <a class="prod-img" href="https://www.raket.ph/abellananino088/products/abc-and-123-tracing-book-for-kids-or-canva-template" target="_blank" rel="noopener noreferrer">
+              <img src="images/tracing-book-cover.png" alt="Cover of the ABC and 123 Tracing Book for Kids" loading="lazy">
+            </a>
+            <div class="prod-body">
+              <p class="pill">Raket.ph</p>
+              <h4>ABC &amp; 123 Tracing Book for Kids</h4>
+              <p>An editable Canva template for preschool and kindergarten learners, with alphabet, letter, name and number tracing activities. Delivered as a Canva template link with lifetime access.</p>
+              <a class="text-link" href="https://www.raket.ph/abellananino088/products/abc-and-123-tracing-book-for-kids-or-canva-template" target="_blank" rel="noopener noreferrer">View on Raket.ph <svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+            </div>
+          </li>
+        </ul>
+      </div>
+    
+      <!-- COMING SOON -->
+      <div class="prod-group reveal">
+        <div class="prod-group-head">
+          <h3>Coming soon</h3>
+          <p class="label">In the works</p>
+        </div>
+        <ul class="prod-grid">
+          <li class="prod">
+            <span class="prod-img">
+              <img src="images/ang-aking-unang-aklat.png" alt="Cover of Ang Aking Unang Aklat sa Pagkatuto, a Filipino children's workbook for ages 3 to 6" loading="lazy">
+            </span>
+            <div class="prod-body">
+              <p class="pill">Coming soon</p>
+              <h4>Ang Aking Unang Aklat sa Pagkatuto</h4>
+              <p>A Filipino workbook of fun learning activities for children ages 3 to 6. The title means "My First Learning Book."</p>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </section>
+
     <header class="sec-head reveal">
       <p class="label">Tools and credentials</p>
       <h2>What I work with, and what I've completed</h2>
