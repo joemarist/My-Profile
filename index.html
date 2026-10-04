@@ -1,4 +1,19 @@
-<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><link rel="icon" type="image/png" href="./images/favicon_2.png?v=1"></head><body>
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><link rel="icon" type="image/png" href="./images/favicon_2.png?v=1">
+  <script>document.documentElement.classList.add('gs');</script>
+  <style>
+  /* GSAP mode: only active when the "gs" class is present */
+  .gs .reveal{opacity:0;transition:none}
+  .gs .fade-in{animation:none;opacity:0}
+  .gs .line{animation:none}
+  @media (prefers-reduced-motion:no-preference){
+    .gs .line{visibility:hidden}
+    .gs .tl-fill{clip-path:inset(0 0 100% 0)}
+  }
+  </style>
+</head>
+
+
+<body>
 <title>Joemar Niño Abellana | Portfolio</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -665,7 +680,6 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px}
     </div>
   </section>
 
-  <section class="wrap block" id="tools">
     <section class="wrap block" id="products">
       <header class="sec-head reveal">
         <p class="label">Digital products</p>
@@ -746,6 +760,7 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px}
       </div>
     </section>
 
+  <section class="wrap block" id="tools">
     <header class="sec-head reveal">
       <p class="label">Tools and credentials</p>
       <h2>What I work with, and what I've completed</h2>
@@ -868,6 +883,8 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px}
   <p class="lb-cap" id="lb-cap"></p>
 </div>
 <div class="sr" id="live" aria-live="polite"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 
 <script>
 (function(){
@@ -886,7 +903,7 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px}
 
   /* Scroll reveals: content stays readable if the observer never runs */
   var targets=[].slice.call(document.querySelectorAll('.reveal,.draw'));
-  if('IntersectionObserver' in window){
+  if(!window.gsap&&'IntersectionObserver' in window){
     root.classList.add('js');
     var io=new IntersectionObserver(function(entries){
       entries.forEach(function(e){
@@ -894,6 +911,64 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px}
       });
     },{rootMargin:'0px 0px -8% 0px',threshold:0.08});
     targets.forEach(function(el){io.observe(el);});
+  }
+
+    /* ===== GSAP + ScrollTrigger animations ===== */
+    if(window.gsap&&window.ScrollTrigger){
+    gsap.registerPlugin(ScrollTrigger);
+    var EASE='power4.out';          /* strong ease-out, close to the site's --ease-out */
+    var mm=gsap.matchMedia();
+
+    /* Full motion */
+    mm.add('(prefers-reduced-motion: no-preference)',function(){
+
+      /* 1. Hero intro: rare, once per visit, so a longer duration is fine */
+      var lines=gsap.utils.toArray('.hero .line');
+      gsap.set(lines,{visibility:'visible'});
+      var intro=gsap.timeline({defaults:{ease:EASE}});
+      intro
+        .from(lines,{yPercent:105,duration:.9,stagger:.08},.1)
+        .fromTo('.hero .fade-in',
+          {opacity:0,y:12},
+          {opacity:1,y:0,duration:.6,stagger:.07},.35);
+
+      /* 2. Scroll reveals: batched so items entering together stagger 60ms */
+      ScrollTrigger.batch('.reveal',{
+        start:'top 88%',
+        once:true,
+        onEnter:function(batch){
+          gsap.fromTo(batch,
+            {opacity:0,y:24},
+            {opacity:1,y:0,duration:.7,ease:EASE,stagger:.06,overwrite:true});
+        }
+      });
+
+      /* 3. Timeline line draws as you scroll (functional: shows your progress) */
+      gsap.fromTo('.tl-fill',
+        {clipPath:'inset(0 0 100% 0)'},
+        {clipPath:'inset(0 0 0% 0)',ease:'none',
+         scrollTrigger:{trigger:'.tl',start:'top 70%',end:'bottom 70%',scrub:.4}});
+
+      /* 4. Screenshot galleries: each image reveals top to bottom with clip-path */
+      gsap.utils.toArray('.shots').forEach(function(group){
+        gsap.fromTo(group.querySelectorAll('.shot-fig'),
+          {clipPath:'inset(0 0 100% 0)',opacity:0},
+          {clipPath:'inset(0 0 0% 0)',opacity:1,duration:.8,ease:EASE,stagger:.07,
+           scrollTrigger:{trigger:group,start:'top 85%',once:true}});
+      });
+    });
+
+    /* Reduced motion: fades only, no movement */
+    mm.add('(prefers-reduced-motion: reduce)',function(){
+      gsap.to('.hero .fade-in',{opacity:1,duration:.3,stagger:.05});
+      ScrollTrigger.batch('.reveal',{
+        start:'top 90%',once:true,
+        onEnter:function(b){gsap.to(b,{opacity:1,duration:.3,stagger:.05});}
+      });
+    });
+  }else{
+    /* GSAP failed to load: show everything, old animations take over */
+    root.classList.remove('gs');
   }
 
   /* Clock and time zone comparison */
