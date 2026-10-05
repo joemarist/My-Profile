@@ -292,6 +292,8 @@ h2{font:700 clamp(1.9rem,4.6vw,3.2rem)/1.05 var(--f-display);letter-spacing:-.02
 .prod-group-head h3{font:800 clamp(1.5rem,3.2vw,2.1rem)/1.05 var(--f-display);letter-spacing:-.03em}
 .prod-grid{
   display:flex;
+  width:100%;
+  min-width:0;
   gap:20px;
   overflow-x:auto;
   overflow-y:hidden;
@@ -300,6 +302,7 @@ h2{font:700 clamp(1.9rem,4.6vw,3.2rem)/1.05 var(--f-display);letter-spacing:-.02
   scroll-behavior:smooth;
   scrollbar-width:none;
   overscroll-behavior-x:contain;
+  -webkit-overflow-scrolling:touch;
 }
 
 .prod-grid::-webkit-scrollbar{
@@ -307,7 +310,8 @@ h2{font:700 clamp(1.9rem,4.6vw,3.2rem)/1.05 var(--f-display);letter-spacing:-.02
 }
 
 .prod-grid > .prod{
-  flex:0 0 clamp(290px,31vw,360px);
+  flex:0 0 clamp(260px,31vw,360px);
+  min-width:0;
   scroll-snap-align:center;
 }
 .prod{
@@ -358,6 +362,8 @@ h2{font:700 clamp(1.9rem,4.6vw,3.2rem)/1.05 var(--f-display);letter-spacing:-.02
   margin-top:20px;
   display:flex;
   gap:20px;
+  width:100%;
+  min-width:0;
   overflow-x:auto;
   overflow-y:hidden;
   padding:8px 4px 20px;
@@ -365,6 +371,7 @@ h2{font:700 clamp(1.9rem,4.6vw,3.2rem)/1.05 var(--f-display);letter-spacing:-.02
   scroll-behavior:smooth;
   scrollbar-width:none;
   overscroll-behavior-x:contain;
+  -webkit-overflow-scrolling:touch;
 }
 
 .certs::-webkit-scrollbar{
@@ -372,7 +379,8 @@ h2{font:700 clamp(1.9rem,4.6vw,3.2rem)/1.05 var(--f-display);letter-spacing:-.02
 }
 
 .certs > .cert{
-  flex:0 0 clamp(290px,31vw,360px);
+  flex:0 0 clamp(260px,31vw,360px);
+  min-width:0;
   scroll-snap-align:center;
 }
 .carousel-wrap{
@@ -416,7 +424,9 @@ h2{font:700 clamp(1.9rem,4.6vw,3.2rem)/1.05 var(--f-display);letter-spacing:-.02
 
 @media (max-width:620px){
   .carousel-wrap{
-    grid-template-columns:minmax(0,1fr);
+    display:block;
+    width:100%;
+    min-width:0;
   }
 
   .carousel-btn{
@@ -1228,24 +1238,22 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px}
 
       gsap.fromTo(cards,
         {
-          opacity:0,
-          y:32,
-          rotateY:6,
-          scale:.96
+          y:24,
+          rotateY:4,
+          scale:.97
         },
         {
-          opacity:1,
           y:0,
           rotateY:0,
           scale:1,
-          duration:.7,
+          duration:.65,
           ease:EASE,
-          stagger:.08,
+          stagger:.07,
+          clearProps:'transform',
           scrollTrigger:{
             trigger:carousel,
-            start:'top 88%',
-            end:'bottom 35%',
-            toggleActions:'play reverse play reverse'
+            start:'top 90%',
+            once:true
           }
         }
       );
@@ -1256,6 +1264,10 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px}
       /* Direction-aware carousel movement */
       gsap.utils.toArray('.carousel-wrap').forEach(function(wrapper){
 
+      var cards = wrapper.querySelectorAll('.cert, .prod');
+
+      if(!cards.length) return;
+
       ScrollTrigger.create({
         trigger:wrapper,
         start:'top 90%',
@@ -1263,38 +1275,30 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px}
 
         onUpdate:function(self){
 
-          var cards = wrapper.querySelectorAll('.cert, .prod');
+          var amount = Math.min(
+            Math.abs(self.getVelocity()) / 7000,
+            1
+          );
 
-          cards.forEach(function(card,index){
+          if(amount < 0.05) return;
 
-            var amount = Math.min(
-              Math.abs(self.getVelocity()) / 5000,
-              1
-            );
+          var movement = self.direction === 1
+            ? -3 * amount
+            : 3 * amount;
 
-            if(self.direction === 1){
+          cards.forEach(function(card){
 
-              gsap.to(card,{
-                y:-4 * amount,
-                duration:.25,
-                overwrite:true,
-                ease:'power2.out'
-              });
-
-            }else{
-
-              gsap.to(card,{
-                y:4 * amount,
-                duration:.25,
-                overwrite:true,
-                ease:'power2.out'
-              });
-
-            }
+            gsap.to(card,{
+              y:movement,
+              duration:.2,
+              overwrite:true,
+              ease:'power2.out'
+            });
 
           });
 
         }
+
       });
 
       });
@@ -1457,6 +1461,15 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px}
     });
   });
 })();
+
+/* Mobile safety refresh */
+window.addEventListener('load', function(){
+
+if(typeof ScrollTrigger !== 'undefined'){
+  ScrollTrigger.refresh();
+}
+
+});
 </script>
 
 </body></html>
